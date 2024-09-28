@@ -224,5 +224,18 @@
             "stopAtEntry": false
         },
 
+        {
+            "name": "Develop 2 (Prove)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-prove-Develop02",
+            "program": "${workspaceFolder}/prove/Develop02/bin/Debug/net8.0/Develop02.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/prove/Develop02",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "stopAtEntry": false
+        },
+
     ]
 }
