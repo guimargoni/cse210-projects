@@ -6,23 +6,29 @@ namespace ScriptureMemorizer
 {
     public class Word
     {
-        public string _Text;
-        public bool IsHidden { get; private set; }
+        private string _Text;
+        private bool _IsHidden = false;
 
         public Word(string text)
         {
             _Text = text;
-            IsHidden = false;
+            _IsHidden = false;
         }
 
         public void Hide()
         {
-            IsHidden = true;
+            _Text = "___";
+            _IsHidden = true;
         }
 
-        public override string ToString()
+        public bool GetVisibility()
         {
-            return IsHidden ? "___" : _Text;
+            return _IsHidden;
+        }
+
+        public string GetText()
+        {
+            return _IsHidden ? "___" : _Text;
         }
     }
 
@@ -55,7 +61,7 @@ namespace ScriptureMemorizer
         public void HideRandomWord()
         {
             Random random = new Random();
-            var unhiddenWords = _Words.Where(w => !w.IsHidden).ToList();
+            var unhiddenWords = _Words.Where(w => !w.GetVisibility()).ToList();
 
             if (unhiddenWords.Count > 0)
             {
@@ -67,12 +73,12 @@ namespace ScriptureMemorizer
         public void Display()
         {
             Console.WriteLine(_Reference);
-            Console.WriteLine(string.Join(" ", _Words));
+            Console.WriteLine(string.Join(" ", _Words.Select(w => w.GetText()))); // Itera sobre _Words e chama GetText() de cada Word.
         }
 
         public bool AllWordsHidden()
         {
-            return _Words.All(w => w.IsHidden);
+            return _Words.All(w => w.GetVisibility());
         }
     }
 
