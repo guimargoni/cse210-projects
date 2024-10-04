@@ -237,5 +237,18 @@
             "problemMatcher": "$msCompile"
         },
 
+        {
+            "label": "build-prove-Develop03",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/prove/Develop03/Develop03.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
     ]
 }
