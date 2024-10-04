@@ -6,12 +6,12 @@ namespace ScriptureMemorizer
 {
     public class Word
     {
-        public string Text { get; private set; }
+        public string _Text;
         public bool IsHidden { get; private set; }
 
         public Word(string text)
         {
-            Text = text;
+            _Text = text;
             IsHidden = false;
         }
 
@@ -22,37 +22,40 @@ namespace ScriptureMemorizer
 
         public override string ToString()
         {
-            return IsHidden ? "___" : Text;
+            return IsHidden ? "___" : _Text;
         }
     }
 
     public class ScriptureReference
     {
-        private string Reference { get; }
+        private string _Reference;
 
-        public ScriptureReference(string reference)
+        public void SetReference(string reference)
         {
-            Reference = reference;
+            _Reference = reference;
         }
 
-        public override string ToString() => Reference;
+        public string GetReference()
+        {
+            return _Reference;
+        }
     }
 
     public class Scripture
     {
-        private List<Word> Words { get; }
-        public ScriptureReference Reference { get; private set; }
+        private List<Word> _Words;
+        private string _Reference;
 
         public Scripture(ScriptureReference reference, string text)
         {
-            Reference = reference;
-            Words = text.Split(' ').Select(word => new Word(word)).ToList();
+            _Reference = reference.GetReference();
+            _Words = text.Split(' ').Select(word => new Word(word)).ToList();
         }
 
         public void HideRandomWord()
         {
             Random random = new Random();
-            var unhiddenWords = Words.Where(w => !w.IsHidden).ToList();
+            var unhiddenWords = _Words.Where(w => !w.IsHidden).ToList();
 
             if (unhiddenWords.Count > 0)
             {
@@ -63,13 +66,13 @@ namespace ScriptureMemorizer
 
         public void Display()
         {
-            Console.WriteLine(Reference);
-            Console.WriteLine(string.Join(" ", Words));
+            Console.WriteLine(_Reference);
+            Console.WriteLine(string.Join(" ", _Words));
         }
 
         public bool AllWordsHidden()
         {
-            return Words.All(w => w.IsHidden);
+            return _Words.All(w => w.IsHidden);
         }
     }
 
@@ -78,11 +81,11 @@ namespace ScriptureMemorizer
         static void Main(string[] args)
         {
             Console.Write("What is the reference for the scripture you want to memorize? ");
-            var reference = Console.ReadLine();
+            ScriptureReference reference = new ScriptureReference();
+            reference.SetReference(Console.ReadLine());
             Console.Write("Now, what does the scripture say? ");
             var scriptureSent = Console.ReadLine();
-            var scriptureReference = new ScriptureReference(reference);
-            var scripture = new Scripture(scriptureReference, scriptureSent);
+            Scripture scripture = new Scripture(reference, scriptureSent);
 
             while (!scripture.AllWordsHidden())
             {
