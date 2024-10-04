@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace ScriptureMemorizer
 {
-    // Representa uma palavra na escritura
     public class Word
     {
         public string Text { get; private set; }
