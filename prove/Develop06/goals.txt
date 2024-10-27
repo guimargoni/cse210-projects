@@ -1,2 +1,0 @@
-name 2,Eternal,100
-name3,Checklist,100,3,1
